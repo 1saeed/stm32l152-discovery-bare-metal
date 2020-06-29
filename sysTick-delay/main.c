@@ -13,7 +13,7 @@
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
  *
  * Purpose:   
- * to use percise system delay using sysTick
+ * to use percise and user defined system delay using sysTick
  *
  *
  * Configuration:
@@ -31,7 +31,7 @@
  
  /* Function declarations */
  void gpio_init(void);
- void sys_tick_init(void);
+ void sys_tick_delay_ms(int ms);
  void led_blue(int status);
  void led_blue_toggle(void);
  void led_green(int status);
@@ -43,16 +43,12 @@
  {	 
 	 set_sysclk_to_hsi();
 	 gpio_init();
-	 sys_tick_init();
  
 	 while(1)
-	 {
-		  // check if count flag is set
-			if((SysTick->CTRL & 0x00010000) == 0x00010000)
-			{
-				 led_blue_toggle();
-				 led_green_toggle();
-			}
+	 {		
+			led_blue_toggle();
+			led_green_toggle();
+		  sys_tick_delay_ms(1000);
 	 } 
  }
  
@@ -66,11 +62,19 @@
 	 GPIOA->MODER &= (unsigned int)~0x00000003;		// set PA0 as input (0b00)	
  }
  
- void sys_tick_init(void)
+ 
+ void sys_tick_delay_ms(int ms)
  {
-	 SysTick->LOAD = 16000000-1;		// @16MHz to generate 1second delay
-	 SysTick->VAL = 0;
-	 SysTick->CTRL = 0x00000005;		// clock source: processor clock, counter enabled
+	 SysTick->LOAD = 16000 - 1;		// @16MHz to generate 1 milisecond delay
+	 SysTick->VAL = 0;						// clear current value register
+	 SysTick->CTRL = 0x00000005;	// enable systick and choose internal clock as clock source
+	 
+	 for(int i = 0 ; i < ms ; i++)
+	 {
+		 // wait until the count flag is set (1 milisecond)
+		 while(!((SysTick->CTRL & 0x00010000) == 0x00010000)){} 
+	 }
+	 SysTick->CTRL = 0; 		// stop the timer
  }
  
  void led_blue(int status)
