@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'timer-output-compare' 
- * Target:  'stm32la52rc' 
+ * Project: 'timer-compare-mode' 
+ * Target:  'stm32l152rc' 
  */
 
 #ifndef RTE_COMPONENTS_H

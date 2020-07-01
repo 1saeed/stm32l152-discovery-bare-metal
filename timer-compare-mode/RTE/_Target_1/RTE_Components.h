@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'timer-output-compare' 
+ * Project: 'timer-compare-mode' 
  * Target:  'Target 1' 
  */
 
