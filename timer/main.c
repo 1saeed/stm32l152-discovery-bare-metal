@@ -17,7 +17,11 @@
  *
  *
  * Configuration:
- * 1. 
+ * 1. enable clock for corrsponding buses
+ * 2. set timer prescaler and timer overload value 
+ * 3. enable timer
+ * 4. check for timer overload
+ * 
 .
 
  */

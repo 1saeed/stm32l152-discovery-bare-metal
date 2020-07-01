@@ -14,11 +14,15 @@
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
  *
  * Purpose:   
- *  to generate 1Hz timer based delay funtion to toggle LEDs with TIM2
+ *  to generate 1Hz compare output toggle on PC6 (TIM3_CH1)
  *
  *
  * Configuration:
- * 1. 
+ * 1. select alternate funtion mode for PC6
+ * 2. enable clock for corrsponding buses
+ * 3. set timer prescaler and timer overload value 
+ * 4. enable toggle on compare match
+ * 5. enable timer
 .
 
  */
