@@ -1,0 +1,24 @@
+Dependencies for Project 'timer-input-capture', Target 'stm32l152rc': (DO NOT MODIFY !)
+CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
+F (.\main.c)(0x5F058FF1)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections-I.\RTE\_stm32l152rc-IC:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L152xC -D_RTE_-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\stm32l1xx.h)(0x57E10558)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\stm32l152xc.h)(0x57E10558)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm3.h)(0x5E8F025A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E538194)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E8337FA)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\system_stm32l1xx.h)(0x57E10558)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E538194)
+F (RTE\Device\STM32L152RC\startup_stm32l152xc.s)(0x57E10558)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_stm32l152rc-IC:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include--pd "__UVISION_VERSION SETA 530" --pd "_RTE_ SETA 1" --pd "STM32L152xC SETA 1" --pd "_RTE_ SETA 1"--list .\listings\startup_stm32l152xc.lst --xref -o .\objects\startup_stm32l152xc.o --depend .\objects\startup_stm32l152xc.d)
+F (RTE\Device\STM32L152RC\system_stm32l1xx.c)(0x57E10558)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections-I.\RTE\_stm32l152rc-IC:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L152xC -D_RTE_-o .\objects\system_stm32l1xx.o --omf_browse .\objects\system_stm32l1xx.crf --depend .\objects\system_stm32l1xx.d)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\stm32l1xx.h)(0x57E10558)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\stm32l152xc.h)(0x57E10558)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm3.h)(0x5E8F025A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E538194)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E8337FA)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F025A)
+I (C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include\system_stm32l1xx.h)(0x57E10558)

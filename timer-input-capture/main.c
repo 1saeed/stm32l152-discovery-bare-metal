@@ -9,20 +9,31 @@
  * LED Green: PB7
  * USER button: PA0
  * Output compare : PC6 (TIM3_CH1)
+ * Input capture: PA15 (TIM2_CH1)
  *
  * Clock:
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
  *
  * Purpose:   
  *  to generate 1Hz compare output toggle on PC6 (TIM3_CH1)
+ *  and then capture this signal on PA15 (TIM2_CH1) on rising edge
+ *  add watch a variable to monitor the time stamp between two rising edges
  *
  *
  * Configuration:
- * 1. select alternate funtion mode for PC6
- * 2. enable clock for corrsponding buses
- * 3. set timer prescaler and timer overload value 
- * 4. enable toggle on compare match
- * 5. enable timer
+ * compare/output mode:
+ * 	1. select alternate funtion mode for PC6
+ * 	2. enable clock for corrsponding buses
+ * 	3. set timer prescaler and timer overload value 
+ * 	4. enable toggle on compare match
+ * 	5. enable timer
+ *
+ * input capture/input:
+ *	1. select alternate function mode for PA15
+ *  2. enable clock for corresponding buses
+ *	3. set timer2 prescaler to watch time stamp
+ *	4. set CH1 to capture rising edges
+ *  5. enable capture and timer 
 .
 
  */
@@ -33,6 +44,7 @@
  /* Function declarations */
  void gpio_init(void);
  void tim3_compare_mode_init(void);
+ void tim2_input_capture_init(void);
  void led_blue(int status);
  void led_blue_toggle(void);
  void led_green(int status);
@@ -40,26 +52,32 @@
  void set_sysclk_to_hsi(void);
  void delay_ms(int delay);
  
+int timeStamp = 0;		// for measure time
+ 
  int main(void)
- {	 
+ {  
+	 
+	 
 	 set_sysclk_to_hsi();
 	 gpio_init();
 	 tim3_compare_mode_init();
+	 tim2_input_capture_init();
 	 
 	 while(1)
 	 {
-
+			while(!((TIM2->SR & 0x00000002) == 0x00000002)){}			// wait until an edge has been detected on PA15 (TIM2_CH1) which matches the selected polarity
+				timeStamp = TIM2->CCR1;															// CCR1 is the counter value transferred by the last input capture 1 event (IC1).
 	 } 
  }
  
  
  void gpio_init(void)
  {
-	 RCC->AHBENR |= 0x00000002;			// IO port B clock enabled (bit 1) --> All GPIOs are connected to AHB bus, so the relevant register is RCC_AHBENR 
-	 GPIOB->MODER |= 0x00005000;		// As long as reset value is 0, we just need to write 01 to the relavant section to configure PB6 and PB7 as output 
+	 RCC->AHBENR  |= 0x00000002;			// IO port B clock enabled (bit 1) --> All GPIOs are connected to AHB bus, so the relevant register is RCC_AHBENR 
+	 GPIOB->MODER |= 0x00005000;		  // As long as reset value is 0, we just need to write 01 to the relavant section to configure PB6 and PB7 as output 
 	 
-	 RCC->AHBENR |= 0x00000001;										// IO port A clock enabled (bit 0) --> All GPIOs are connected to AHB bus, so the relevant register is RCC_AHBENR 
-	 GPIOA->MODER &= (unsigned int)~0x00000003;		// set PA0 as input (0b00)	
+	 RCC->AHBENR  |= 0x00000001;										// IO port A clock enabled (bit 0) --> All GPIOs are connected to AHB bus, so the relevant register is RCC_AHBENR 
+	 GPIOA->MODER &= (unsigned int)~0x00000003;		 // set PA0 as input (0b00)	
  }
  
  
@@ -80,6 +98,21 @@
 	 TIM3->CNT			= 0;								// reset timer counter
 	 TIM3->CR1		 |= 0x00000001;				// enable timer3	
 	 
+ }
+ 
+ void tim2_input_capture_init(void)
+ {
+	 RCC->AHBENR   |= 0x00000001;				// enable4 clock for PORTA
+	 GPIOA->MODER  |= 0x80000000; 			// set PA15 as alternate function
+	 GPIOA->AFR[1] &= 0x0FFFFFFF;
+	 GPIOA->AFR[1] |= 0x10000000;		    // route PA15 for timer2
+	 
+	 //configure timer2 ch1 for input capture mode
+	 RCC->APB1ENR  |= 0x00000001;				// enable clock for timer2
+	 TIM2->PSC     = 16000 - 1;					// divided by 16000 --> 1KHz @16MHz
+	 TIM2->CCMR1   = 0x00000041;				// set ch1 to capture at every edge and enable filter (fSAMPLING=fDTS/2, N=6)
+	 TIM2->CCER    = 0x00000001;				// capture enabled and polarity for trigger or capture operations (noninverted/rising edge)
+	 TIM2->CR1     = 0x00000001;				// enable timer2	 
  }
  
  void led_blue(int status)
