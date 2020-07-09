@@ -52,10 +52,13 @@
  void set_sysclk_to_hsi(void);
  void delay_ms(int delay);
  
-int timeStamp = 0;		// for measure time
- 
+ volatile unsigned int period = 0;
+ volatile float frequency = 0.00;
+
  int main(void)
- {  	 
+ {  
+   unsigned int lastValue = 0;
+	 unsigned int currentValue = 0;	
 	 set_sysclk_to_hsi();
 	 gpio_init();
 	 tim3_compare_mode_init();
@@ -64,7 +67,10 @@ int timeStamp = 0;		// for measure time
 	 while(1)
 	 {
 			while(!((TIM2->SR & 0x00000002) == 0x00000002)){}			// wait until an edge has been detected on PA15 (TIM2_CH1) which matches the selected polarity
-				timeStamp = TIM2->CCR1;															// CCR1 is the counter value transferred by the last input capture 1 event (IC1).
+					currentValue = TIM2->CCR1;											  // CCR1 is the counter value transferred by the last input capture 1 event (IC1).
+				period = currentValue - lastValue;
+				lastValue = currentValue;
+				frequency = 1000.0f/(float)period;
 	 } 
  }
  
@@ -109,7 +115,7 @@ int timeStamp = 0;		// for measure time
 	 RCC->APB1ENR  |= 0x00000001;				// enable clock for timer2
 	 TIM2->PSC     = 16000 - 1;					// divided by 16000 --> 1KHz @16MHz
 	 TIM2->CCMR1   = 0x00000041;				// set ch1 to capture at every edge and enable filter (fSAMPLING=fDTS/2, N=6)
-	 TIM2->CCER    = 0x00000001;				// capture enabled and polarity for trigger or capture operations (noninverted/rising edge)
+	 TIM2->CCER    = 0x0000000B;				// capture enabled and polarity for trigger or capture operations (noninverted/both edges)
 	 TIM2->CR1     = 0x00000001;				// enable timer2	 
  }
  
