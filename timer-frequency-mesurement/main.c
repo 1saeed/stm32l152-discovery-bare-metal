@@ -1,5 +1,5 @@
 /*
- * timer.c
+ * timer-frequency-mesurement.c
  *
  * Author: 
  * Saeed Poorjandaghi

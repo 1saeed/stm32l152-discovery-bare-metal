@@ -1,5 +1,5 @@
 /*
- * timer.c
+ * timer-input-capture.c
  *
  * Author: 
  * Saeed Poorjandaghi

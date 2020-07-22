@@ -1,5 +1,5 @@
 /*
- * timer.c
+ * timer-pwm.c
  *
  * Author: 
  * Saeed Poorjandaghi

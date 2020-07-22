@@ -1,5 +1,5 @@
 /*
- * timer.c
+ * timer-compare-mode.c
  *
  * Author: 
  * Saeed Poorjandaghi

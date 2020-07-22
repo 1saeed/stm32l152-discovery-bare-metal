@@ -1,34 +1,36 @@
 /*
- * interrupt-gpio.c
+ * interrupt-multi-gpio.c
  *
  * Author: 
  * Saeed Poorjandaghi
  *
  * Pinout: 
- * LED Blue : PB6
- * LED Green: PB7
- * USER button: PA0
+ * LED Blue 			: PB6
+ * LED Green			: PB7
+ * USER button		: PA0
+ * EXTERNAL input :	PC1
  *
  * Clock:
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
  *
  * Purpose: 
- * Detect falling edge at PA0 (when user button is pushed) and toggle LEDs
+ * detect falling edge at PA0 (when user button is pushed) and toggle green led
+ * detect falling edge at PC1 and toggle blue led
  *
  *
  * Configuration:
  * interrupt init:
  * 1. disable all interrupts
  * 2. enable system configuration controller clock in APB2ENR register
- * 3. select PA0 as input source for EXTI0 in SYSCFG_EXTICR1 register
- * 4. unmask EXTI0 in EXTI_IMR register
- * 5. unmask event for EXTI0 in EXTI_EMR register
- * 5. falling edge trigger for EXTI0 in DXTI_FTSR register
+ * 3. select PA0 and PC1 as input source for EXTI0 and EXTI1 in SYSCFG_EXTICR1 register
+ * 4. unmask EXTI0 and EXTI1 in EXTI_IMR register
+ * 5. unmask event for EXTI0 and EXTI1 in EXTI_EMR register
+ * 5. falling edge trigger for EXTI0 and EXTI1 in DXTI_FTSR register (set internal pull-up for pins if necessary)
  * 6. enable interrupt
- * 7. configure PA0 as input
+ * 7. configure PA0 and PC1 as input
  *
  * interrupt service routine:
- * 1. check if EXTI0 is pending?
+ * 1. check if EXTI0 or EXTI1 is pending?
  * 2. then clear pending interrupt
  * 3. then do routine tasks
 .
@@ -67,8 +69,16 @@
 	 if(EXTI->PR & 0x00000001)			// check if EXTI0 is pending
 	 {
 		 EXTI->PR = 0x00000001;				// clear pending interrupt
-		 led_blue_toggle();
 		 led_green_toggle();
+	 } 
+ }
+ 
+ void EXTI1_IRQHandler(void)
+ {
+	 if(EXTI->PR & 0x00000002)			// check if EXTI1 is pending
+	 {
+		 EXTI->PR = 0x00000002;				// clear pending interrupt
+		 led_blue_toggle();
 	 } 
  }
  
@@ -76,16 +86,27 @@
  {
 		__disable_irq();																	// disable all interrupts
 	 
-	  RCC->APB2ENR |= 0x00000001;												// enable system configuration controller 
+	  RCC->APB2ENR |= 0x00000001;												// enable clock for system configuration controller 
 	  RCC->AHBENR  |= 0x00000001;												// enable clock for PORTA
+	  RCC->AHBENR  |= 0x00000004;												// enable clock for PORTC
+	 
+	  GPIOC->PUPDR |= 0x00000004;												// internally pull-up for PC1
+	 
 	  SYSCFG->EXTICR[0] &= 0xFFFFFFF0; 									// select PA0 as input for the EXTI0
+	  SYSCFG->EXTICR[0] &= 0xFFFFFF0F;									// select PC0 as input for the EXTI0
+	  SYSCFG->EXTICR[0] |= 0x00000020;									
 	 
 	  EXTI->IMR 	|= 0x00000001;													// unmask EXTI0
 	  EXTI->EMR		|= 0x00000001;													// unmask event
 	  EXTI->FTSR	|= 0x00000001;													// falling edge trigger for EXTI0
 	 
-	  NVIC_EnableIRQ(EXTI0_IRQn);													// enable interrupt
+	  EXTI->IMR		|= 0x00000002;													// unmask EXTI1
+	  EXTI->EMR		|= 0x00000002;													// unmask event
+	  EXTI->FTSR  |= 0x00000002;													// falling edge trigger for EXTI1
 	 
+	  NVIC_EnableIRQ(EXTI0_IRQn);													// enable interrupt
+	  NVIC_EnableIRQ(EXTI1_IRQn);													// enable interrupt
+		
 	  __enable_irq();
  }	 
  
