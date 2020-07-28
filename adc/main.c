@@ -48,6 +48,7 @@
  void led_blue(int status);
  void led_green(int status);
  void set_sysclk_to_hsi(void);
+ void sys_tick_delay_ms(int ms);
  void delay_ms(int delay);
  
  int main(void)
@@ -64,7 +65,7 @@
 			adc_result = adc_conversion();
 		  sprintf(str,"adc value = %1.2f\r\n",(float)adc_result*3.00/4092);
 		  usart1_send_string(str);
-		  delay_ms(1000);
+		  sys_tick_delay_ms(1000);
 	 } 
  }
  
@@ -98,8 +99,7 @@
 	 if(USART1->SR & 0x00000020)			// check if received data is ready to be read.
 	 {
 			c =  (char)USART1->DR;
-		  usart1_send_string("test");
-		  //usart1_write(c);							// echo
+		  usart1_write(c);							// echo
 	 }
  }
  
@@ -197,6 +197,20 @@ char usart1_read(void)
 	 SystemCoreClockUpdate();
  }
  
+ 
+ void sys_tick_delay_ms(int ms)
+ {
+	 SysTick->LOAD = 16000 - 1;		// @16MHz to generate 1 milisecond delay
+	 SysTick->VAL = 0;						// clear current value register
+	 SysTick->CTRL = 0x00000005;	// enable systick and choose internal clock as clock source
+	 
+	 for(int i = 0 ; i < ms ; i++)
+	 {
+		 // wait until the count flag is set (1 milisecond)
+		 while(!((SysTick->CTRL & 0x00010000) == 0x00010000)){} 
+	 }
+	 SysTick->CTRL = 0; 		// stop the timer
+ }
  
  // that will change the speed based on the optimization settings
 void delay_ms(int delay)
