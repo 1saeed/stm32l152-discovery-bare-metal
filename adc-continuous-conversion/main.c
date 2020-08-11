@@ -1,5 +1,5 @@
 /*
- * adc.c
+ * adc-continuous-conversion.c
  *
  * Author: 
  * Saeed Poorjandaghi
@@ -10,7 +10,7 @@
  * LED Blue 	: PB6
  * LED Green	: PB7
  * USER button: PA0
- * ADC				: PA4
+ * ADC				: PA4, PA1
  *
  * Clock:
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
@@ -72,8 +72,7 @@
  unsigned int adc_conversion(void)
  {
 	  unsigned int value = 0;
-	  while(!((ADC1->SR & 0x00000040) == 0x00000040)){}								// wait until the ADC is ready to covert
-	  ADC1->CR2 |= 0x40000000;																				// starts conversion of regular channels
+
 	  while(!((ADC1->SR & 0x00000002) == 0x00000002)){}								// wait until regular channel end of conversion
 			
 		value = ADC1->DR;
@@ -89,8 +88,12 @@
 	  GPIOA->MODER |= 0x00000300;									// PA4 as analog mode
 	  
 	  ADC1->CR2 	 = 0x00000000;									// disable ADC 
-	  ADC1->SQR5 	|= 0x00000004;									// 1st conversion in regular sequence for ADC channel 4
+	  ADC1->SQR5 	|= 0x00000004;									// 1st conversion in regular sequence for ADC channel 4 
+	  ADC1->CR2   |= 0x00000002;									// enable continuous conversion mode
 	  ADC1->CR2 	|= 0x00000001;									// enable ADC  
+	 
+	  while(!((ADC1->SR & 0x00000040) == 0x00000040)){}								// wait until the ADC is ready to covert
+	  ADC1->CR2   |= 0x40000000;																			// starts conversion of regular channels (continuous mode)
  }
  
  
