@@ -1,5 +1,5 @@
 /*
- * adc-continuous-conversion.c
+ * adc-scan.c
  *
  * Author: 
  * Saeed Poorjandaghi
@@ -10,28 +10,35 @@
  * LED Blue 	: PB6
  * LED Green	: PB7
  * USER button: PA0
- * ADC				: PA4
+ * ADC				: PA4, PA1
  *
  * Clock:
  * 	HSI RC 16MHz with AHB prescaler 1, cortex system timer divider 1, APB1 and APB2 prescaler 1 --> 16MHz
  *
  * Purpose:   
- * read analog channel PA4 and send voltage value to serial port. (continuous mode)
+ * read analog channel PA4 and PA1 in scan mode (not continuous) without using the DMA and send voltage values to serial port.
  *
  *
  * Configuration:
  * init:
  * 1. enable clock for ADC1 in APB2ENR register
  * 2. enable clock for PORTA in AHBENR
- * 3. set PA4 as analog pin
+ * 3. set PA4 and PA1 as analog pin
  * 4. disable adc
- * 5. set regular sequence registers.
- * 6. enable ADC
- * 7. start conversion by setting SWSTART bit ADC_CR2 register.
+ * 5. set EOCS bit in ADC_CR2 register so that the EOC bit is set at the end of each regular conversion (and not each sequence)
+ * 6. set SCAN bit in ADC_CR1 register
+ * 7. set channel sequence (channel #4 and channel #1) in ADC_SQR5 register
+ * 8. set number of conversions (2) in ADC_SQR1 register
+ * 9. set proper delay between sequences by setting DELS bit in ADC_CR2 register 
+ * 10.set proper sample time for both channels by setting SMPx bits in ADC_SMPR3 register
+ * 11.enable ADC interrupt by setting EOCIE bit ADC_CR1 register so that when EOC bit is set an interrupt will be generated 
+ * 12. enable ADC
  * 
  * conversion:
- * 1. wait until EOC bit in ADC_CR is set (conversion completed)
- * 2. read ADC_DR for conversion result
+ * 1. check ADONS bit in ADC_CR register to check if ADC is ready. 
+ * 2. start convertion by setting SWSTART bit ADC_CR2 register.
+ * 3. check if EOC bit in ADC_CR is set (conversion completed)
+ * 4. read ADC_DR for conversion result
  */
  
 #include "stm32l1xx.h"                  // Device header
@@ -50,6 +57,10 @@
  void sys_tick_delay_ms(int ms);
  void delay_ms(int delay);
  
+ volatile unsigned int adc_value[10];
+ volatile unsigned int count = 0;
+ volatile unsigned char adc_convertion_flag = 0;
+ 
  int main(void)
  {
 	 unsigned int adc_result = 0;
@@ -61,10 +72,16 @@
 	 
 	 while(1)
 	 {
-			adc_result = adc_conversion();
-		  sprintf(str,"adc value = %1.2f\r\n",(float)adc_result*3.00/4092);
+		  while(!((ADC1->SR & 0x00000040) == 0x00000040)){}								// wait until the ADC is ready to covert
+	    ADC1->CR2   |= 0x40000000;																			// starts conversion of regular channels 
+			while(adc_convertion_flag < 2){};															// wait until conversion is done
+				
+
+		  sprintf(str,"adc value1 = %1.2f / adc value2 = %1.2f\r\n",(float)adc_value[0]*3.00/4092,(float)adc_value[1]*3.00/4092);
 		  usart1_send_string(str);
+			adc_convertion_flag = 0;	
 		  sys_tick_delay_ms(1000);
+				
 	 } 
  }
  
@@ -75,8 +92,22 @@
 	  while(!((ADC1->SR & 0x00000002) == 0x00000002)){}								// wait until regular channel end of conversion
 			
 		value = ADC1->DR;
-				
+			
 		return value;	
+ }
+ 
+ void ADC1_IRQHandler(void)
+ {
+	 if((ADC1->SR & 0x00000002) == 0x00000002)			// check if EOC bit is set
+	 {
+		  adc_value[count] = ADC1->DR;								// read ADC conversion result
+			count++;
+      if(count == 2)
+			{
+					count = 0;	
+			}	
+			adc_convertion_flag++;
+	 }
  }
  
  void adc_init(void)
@@ -84,15 +115,23 @@
 		RCC->APB2ENR |= 0x00000200;									// ADC1 interface clock enabled
 	  RCC->AHBENR  |= 0x00000001;									// enable clock for AHBENR bus (bit 1) --> GPIOA 
 	 
-	  GPIOA->MODER |= 0x00000300;									// PA4 as analog mode
+	  GPIOA->MODER |= 0x00000300;									// PA4 and PA1 as analog mode
 	  
 	  ADC1->CR2 	 = 0x00000000;									// disable ADC 
-	  ADC1->SQR5 	|= 0x00000004;									// 1st conversion in regular sequence for ADC channel 4 
-	  ADC1->CR2   |= 0x00000002;									// enable continuous conversion mode
-	  ADC1->CR2 	|= 0x00000001;									// enable ADC  
 	 
-	  while(!((ADC1->SR & 0x00000040) == 0x00000040)){}								// wait until the ADC is ready to covert
-	  ADC1->CR2   |= 0x40000000;																			// starts conversion of regular channels (continuous mode)
+	  ADC1->CR2   |= 0x00000400;									// the EOC bit is set at the end of each regular conversion
+	  ADC1->CR1		|= 0x00000100;									// scan mode enabled
+	  ADC1->SQR5 	|= 0x00000024;									// 1st conversion in regular sequence for ADC channel #4 and 2nd conversion for channel #1
+	  ADC1->SQR1   = 0x00100000;									// 2 conversions
+	  ADC1->CR2   |= 0x00000070;									// 255 APB clock cycles after the end of conversion
+	  ADC1->SMPR3	|= 0x00007038;									// channel 1 and 4 sample time selection : 384 cycle
+	    
+	  __disable_irq();											// disable all interrupts
+	  ADC1->CR1   |= 0x00000020;						// EOC interrupt enabled. An interrupt is generated when the EOC bit is set.
+	  NVIC_EnableIRQ(ADC1_IRQn);					  // enable ADC interrupt
+	  __enable_irq();
+	 
+	  ADC1->CR2 	|= 0x00000001;									// enable ADC  
  }
  
  
