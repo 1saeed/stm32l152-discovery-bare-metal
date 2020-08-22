@@ -1,0 +1,132 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.30.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: saeed poorjandaghi, Kaveh, LIC=VGX63-AFJUU-M91GG-V8QPL-BHKEG-D5874
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.14
+Assembler:       Armasm.exe V6.14
+Linker/Locator:  ArmLink.exe V6.14
+Library Manager: ArmAr.exe V6.14
+Hex Converter:   FromElf.exe V6.14
+CPU DLL:         SARMCM3.DLL V5.30.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Dialog DLL:      TCM.DLL V1.42.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Admin\Desktop\STM32L152\stm32l152rc-discovery-bare-metal\dma-adc-uart\dma-adc-uart.uvprojx
+Project File Date:  08/22/2020
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.14', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'stm32l152rc'
+main.c(54): warning: '/*' within block comment [-Wcomment]
+ /* Function declarations */
+ ^
+main.c(70): warning: no previous extern declaration for non-static variable 'adc_value' [-Wmissing-variable-declarations]
+ volatile unsigned short adc_value[2] = {1023,1023};
+                         ^
+main.c(70): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+ volatile unsigned short adc_value[2] = {1023,1023};
+          ^
+main.c(85): error: use of undeclared identifier 'DMA1_Channel4'
+                                if(DMA1_Channel4->CNDTR == 0 && (DMA1_Channel4->CCR & 0x00000001))                              
+                                   ^
+main.c(85): error: use of undeclared identifier 'DMA1_Channel4'
+                                if(DMA1_Channel4->CNDTR == 0 && (DMA1_Channel4->CCR & 0x00000001))                              
+                                                                 ^
+main.c(87): error: use of undeclared identifier 'DMA1_Channel4'
+                                          DMA1_Channel4->CCR            &= (unsigned int)~0x00000001;           // disable dma
+                                          ^
+main.c(88): error: use of undeclared identifier 'DMA1_Channel4'
+                                                while(DMA1_Channel4->CCR & 0x00000001){}                                                        // wait for dma to be disabled
+                                                      ^
+main.c(90): error: use of undeclared identifier 'DMA1_Channel4'
+                                                DMA1_Channel4->CNDTR    =  4;                                                                                                           // number of data to transfer                                                           
+                                                ^
+main.c(91): error: use of undeclared identifier 'DMA1_Channel4'
+                                                DMA1_Channel4->CCR              |= 0x00000001;                                                                  // enable DMA
+                                                ^
+main.c(101): error: use of undeclared identifier 'DMA1_Channel1'
+                DMA1_Channel1->CCR    = 0;                                                                                                              // disable dma
+                ^
+main.c(102): error: use of undeclared identifier 'DMA1_Channel1'
+          while(DMA1_Channel1->CCR & 0x00000001){}                                                      // wait for dma to be disabled
+                ^
+main.c(104): error: use of undeclared identifier 'RCC'
+          RCC->AHBENR                                   |= 0x01000000;                                                                  // DMA1 clock enabled
+          ^
+main.c(106): error: use of undeclared identifier 'DMA1_Channel1'
+          DMA1_Channel1->CCR    |= 0x00000080;                                                                  // memory increment mode enabled
+          ^
+main.c(107): error: use of undeclared identifier 'DMA1_Channel1'
+                DMA1_Channel1->CCR    |= 0x00000020;                                                                    // circular mode enabled
+                ^
+main.c(108): error: use of undeclared identifier 'DMA1_Channel1'
+                DMA1_Channel1->CCR    |= 0x00000500;                                                                    // set peripheral and memory size to 16 bits
+                ^
+main.c(110): error: use of undeclared identifier 'DMA1_Channel1'
+          DMA1_Channel1->CNDTR  =  2;                                                                                                           // number of data to transfer
+          ^
+main.c(111): error: use of undeclared identifier 'DMA1_Channel1'
+          DMA1_Channel1->CPAR   =  (unsigned int)&(ADC1->DR);           // set source address
+          ^
+main.c(111): error: use of undeclared identifier 'ADC1'
+          DMA1_Channel1->CPAR   =  (unsigned int)&(ADC1->DR);           // set source address
+                                                   ^
+main.c(112): error: use of undeclared identifier 'DMA1_Channel1'
+          DMA1_Channel1->CMAR   =  (unsigned int)adc_value;                     // set destination address
+          ^
+main.c(114): error: use of undeclared identifier 'DMA1_Channel1'
+          DMA1_Channel1->CCR            |= 0x00000001;                                                                  // enable DMA           
+          ^
+main.c(119): error: use of undeclared identifier 'DMA1_Channel4'
+          DMA1_Channel4->CCR    = 0;                                                                                                            // disable dma
+          ^
+main.c(120): error: use of undeclared identifier 'DMA1_Channel4'
+          while(DMA1_Channel4->CCR & 0x00000001){}                                                      // wait for dma to be disabled
+                ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+2 warnings and 20 errors generated.
+compiling main.c...
+".\Objects\dma-adc-uart.axf" - 19 Error(s), 2 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32L1xx_DFP.1.2.0.pack
+                Keil.STM32L1xx_DFP.1.2.0
+                STMicroelectronics STM32L1 Series Device Support and Examples
+   * Component: Startup Version: 2.0.0
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_stm32l152rc
+  C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+
+   * Component: Keil::Device:Startup:2.0.0
+      Source file:   Device\Source\system_stm32l1xx.c
+      Source file:   Device\Source\ARM\STM32L1xx_MD+_OPT.s
+      Source file:   Device\Source\ARM\startup_stm32l152xc.s
+Target not created.
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
