@@ -1,0 +1,171 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.30.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: saeed poorjandaghi, Kaveh, LIC=VGX63-AFJUU-M91GG-V8QPL-BHKEG-D5874
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.14
+Assembler:       Armasm.exe V6.14
+Linker/Locator:  ArmLink.exe V6.14
+Library Manager: ArmAr.exe V6.14
+Hex Converter:   FromElf.exe V6.14
+CPU DLL:         SARMCM3.DLL V5.30.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Dialog DLL:      TCM.DLL V1.42.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Admin\Desktop\STM32L152\stm32l152rc-discovery-bare-metal\lcd\lcd.uvprojx
+Project File Date:  08/25/2020
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.14', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'stm32l152rc'
+main.c(77): warning: no previous extern declaration for non-static variable 'CapLetterMap' [-Wmissing-variable-declarations]
+const unsigned short CapLetterMap[26]=
+                     ^
+main.c(77): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+const unsigned short CapLetterMap[26]=
+      ^
+main.c(88): warning: no previous extern declaration for non-static variable 'NumberMap' [-Wmissing-variable-declarations]
+const unsigned short NumberMap[10]=
+                     ^
+main.c(88): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+const unsigned short NumberMap[10]=
+      ^
+main.c(95): warning: no previous extern declaration for non-static variable 't_bar' [-Wmissing-variable-declarations]
+unsigned char t_bar[2]={0x0,0X0};
+              ^
+main.c(95): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+unsigned char t_bar[2]={0x0,0X0};
+^
+main.c(118): warning: passing 'char [6]' to parameter of type 'unsigned char *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   LCD_GLASS_DisplayString("STM32");     
+                           ^~~~~~~
+main.c(100): note: passing argument to parameter 'ptr' here
+ void LCD_GLASS_DisplayString(unsigned char* ptr);
+                                             ^
+main.c(191): warning: illegal character encoding in character literal [-Winvalid-source-encoding]
+    case '<B5>' :
+         ^
+main.c(211): warning: illegal character encoding in character literal [-Winvalid-source-encoding]
+    case '<B0>' :
+         ^
+main.c(285): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x0c) << 26 ) | (digit[0]& 0x03) ; // 1G 1B 1M 1E          
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+main.c(286): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x0c) << 26 ) | (digit[1]& 0x03) ; // 1F 1A 1C 1D 
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+main.c(287): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x0c) << 26 ) | (digit[2]& 0x03) ; // 1Q 1K 1Col 1P                                                                                                                                    
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+main.c(288): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x0c) << 26 ) | (digit[3]& 0x03) ; // 1H 1J 1DP 1N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+main.c(299): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x0c) << 24 )|((digit[0]& 0x02) << 6 )|((digit[0]& 0x01) << 2 ) ; // 2G 2B 2M 2E         
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(300): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x0c) << 24 )|((digit[1]& 0x02) << 6 )|((digit[1]& 0x01) << 2 ) ; // 2F 2A 2C 2D
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(301): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x0c) << 24 )|((digit[2]& 0x02) << 6 )|((digit[2]& 0x01) << 2 ) ; // 2Q 2K 2Col 2P
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(302): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x0c) << 24 )|((digit[3]& 0x02) << 6 )|((digit[3]& 0x01) << 2 ) ; // 2H 2J 2DP 2N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(313): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x0c) << 22 ) | ((digit[0]& 0x03) << 8 ) ; // 3G 3B 3M 3E      
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(314): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x0c) << 22 ) | ((digit[1]& 0x03) << 8 ) ; // 3F 3A 3C 3D
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(315): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x0c) << 22 ) | ((digit[2]& 0x03) << 8 ) ; // 3Q 3K 3Col 3P
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(316): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x0c) << 22 ) | ((digit[3]& 0x03) << 8 ) ; // 3H 3J 3DP 3N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(327): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x0c) << 18 ) | ((digit[0]& 0x03) << 10 ) ; // 4G 4B 4M 4E     
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(328): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x0c) << 18 ) | ((digit[1]& 0x03) << 10 ) ; // 4F 4A 4C 4D
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(329): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x0c) << 18 ) | ((digit[2]& 0x03) << 10 ) ; // 4Q 4K 4Col 4P
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(330): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x0c) << 18 ) | ((digit[3]& 0x03) << 10 ) ; // 4H 4J 4DP 4N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(341): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x0c) << 16 ) | ((digit[0]& 0x03) << 12 ) ; // 5G 5B 5M 5E     
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(342): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x0c) << 16 ) | ((digit[1]& 0x03) << 12 ) ; // 5F 5A 5C 5D
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(343): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x0c) << 16 ) | ((digit[2]& 0x01) << 12 ) ; // 5Q 5K   5P 
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(344): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x0c) << 16 ) | ((digit[3]& 0x01) << 12 ) ; // 5H 5J   5N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(355): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[0] |= ((digit[0]& 0x04) << 15 ) | ((digit[0]& 0x08) << 13 ) | ((digit[0]& 0x03) << 14 ) ; // 6B 6G 6M 6E 
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(356): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[2] |= ((digit[1]& 0x04) << 15 ) | ((digit[1]& 0x08) << 13 ) | ((digit[1]& 0x03) << 14 ) ; // 6A 6F 6C 6D
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(357): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[4] |= ((digit[2]& 0x04) << 15 ) | ((digit[2]& 0x08) << 13 ) | ((digit[2]& 0x01) << 14 ) ; // 6K 6Q    6P 
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(358): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+      LCD->RAM[6] |= ((digit[3]& 0x04) << 15 ) | ((digit[3]& 0x08) << 13 ) | ((digit[3]& 0x01) << 14 ) ; // 6J 6H   6N
+                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(475): warning: no newline at end of file [-Wnewline-eof]
+ 
+ ^
+31 warnings generated.
+compiling main.c...
+linking...
+Program Size: Code=1960 RO-data=380 RW-data=0 ZI-data=1640  
+".\Objects\lcd.axf" - 0 Error(s), 31 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32L1xx_DFP.1.2.0.pack
+                Keil.STM32L1xx_DFP.1.2.0
+                STMicroelectronics STM32L1 Series Device Support and Examples
+   * Component: Startup Version: 2.0.0
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_stm32l152rc
+  C:\Users\Admin\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\Admin\AppData\Local\Arm\Packs\Keil\STM32L1xx_DFP\1.2.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+
+   * Component: Keil::Device:Startup:2.0.0
+      Source file:   Device\Source\ARM\startup_stm32l152xc.s
+      Source file:   Device\Source\ARM\STM32L1xx_MD+_OPT.s
+      Source file:   Device\Source\system_stm32l1xx.c
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
